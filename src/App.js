@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { createStore, combineReducers } from "redux";
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.css";
 
 // individual todo reducer
 const todo = (state, action) => {
@@ -136,7 +138,7 @@ const TodoList = ({ todos, onTodoClick }) => (
   </ul>
 );
 
-const AddTodo = () => {
+const AddTodo = ({ store }) => {
   let input;
   return (
     <div>
