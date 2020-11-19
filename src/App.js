@@ -54,13 +54,6 @@ const todoApp = combineReducers({
   visibilityFilter,
 });
 
-// store is a single object that holds the data (state) for the entire application.
-// takes in the root reducer and Redux dev tools
-const store = createStore(
-  todoApp,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
-
 // component shows which todos are displayed based on status
 const Link = ({ active, children, onClick }) => {
   if (active) {
@@ -81,6 +74,7 @@ const Link = ({ active, children, onClick }) => {
 
 class FilterLink extends Component {
   componentDidMount() {
+    const { store } = this.props;
     this.unsubscribe = store.subscribe(() => this.forceUpdate());
   }
 
@@ -89,6 +83,7 @@ class FilterLink extends Component {
   }
   render() {
     const props = this.props;
+    const { store } = props;
     const state = store.getState();
 
     return (
@@ -107,11 +102,18 @@ class FilterLink extends Component {
   }
 }
 
-const Footer = () => (
+const Footer = ({ store }) => (
   <p>
-    Show: <FilterLink filter="SHOW_ALL">All</FilterLink>{" "}
-    <FilterLink filter="SHOW_ACTIVE">Active</FilterLink>{" "}
-    <FilterLink filter="SHOW_COMPLETED">Completed</FilterLink>{" "}
+    Show:{" "}
+    <FilterLink filter="SHOW_ALL" store={store}>
+      All
+    </FilterLink>{" "}
+    <FilterLink filter="SHOW_ACTIVE" store={store}>
+      Active
+    </FilterLink>{" "}
+    <FilterLink filter="SHOW_COMPLETED" store={store}>
+      Completed
+    </FilterLink>{" "}
   </p>
 );
 
@@ -172,6 +174,7 @@ const getVisibleTodos = (todos, filter) => {
 
 class VisibleTodoList extends Component {
   componentDidMount() {
+    const { store } = this.props;
     this.unsubscribe = store.subscribe(() => this.forceUpdate());
   }
 
@@ -180,6 +183,7 @@ class VisibleTodoList extends Component {
   }
   render() {
     const props = this.props;
+    const { store } = props;
     const state = store.getState();
 
     return (
@@ -198,13 +202,29 @@ class VisibleTodoList extends Component {
 
 // todo list "app" component
 let nextTodoId = 0;
-const TodoApp = () => (
+const TodoApp = ({ store }) => (
   <div>
     <h1>Todo List with Redux</h1>
-    <AddTodo />
-    <VisibleTodoList />
-    <Footer />
+    <AddTodo store={store} />
+    <VisibleTodoList store={store} />
+    <Footer store={store} />
   </div>
 );
 
-ReactDOM.render(<TodoApp />, document.getElementById("root"));
+// store is a single object that holds the data (state) for the entire application.
+// takes in the root reducer and Redux dev tools
+// const store = createStore(
+//   todoApp,
+
+// );
+
+ReactDOM.render(
+  <TodoApp
+    store={createStore(
+      todoApp,
+      window.__REDUX_DEVTOOLS_EXTENSION__ &&
+        window.__REDUX_DEVTOOLS_EXTENSION__()
+    )}
+  />,
+  document.getElementById("root")
+);
