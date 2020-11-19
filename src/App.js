@@ -1,62 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-import { createStore, combineReducers } from "redux";
+import { createStore } from "redux";
 import { Provider, connect } from "react-redux";
+import todoApp from "./reducers/rootReducer";
 //import PropTypes from "prop-types";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
-
-// individual todo reducer
-const todo = (state, action) => {
-  switch (action.type) {
-    case "ADD_TODO":
-      return {
-        id: action.id,
-        text: action.text,
-        completed: false,
-      };
-    case "TOGGLE_TODO":
-      if (state.id !== action.id) {
-        return state;
-      }
-      //returns state, not todo, because this is component state, not app state
-      return {
-        ...state,
-        completed: !state.completed,
-      };
-    default:
-      return state;
-  }
-};
-
-// todo list reducer
-const todos = (state = [], action) => {
-  switch (action.type) {
-    case "ADD_TODO":
-      return [...state, todo(undefined, action)];
-    case "TOGGLE_TODO":
-      //map function is calling the todo reducer declared above
-      return state.map((todoItem) => todo(todoItem, action));
-    default:
-      return state;
-  }
-};
-
-// todo visibility filter reducer
-const visibilityFilter = (state = "SHOW_ALL", action) => {
-  switch (action.type) {
-    case "SET_VISIBILITY_FILTER":
-      return action.filter;
-    default:
-      return state;
-  }
-};
-
-//todoApp is the root reducer, not a todo list app
-const todoApp = combineReducers({
-  todos,
-  visibilityFilter,
-});
+//import todoApp from "./reducers/rootReducer";
 
 //====== action creators =======//
 let nextTodoId = 0;
