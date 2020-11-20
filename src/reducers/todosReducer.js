@@ -8,6 +8,10 @@ const todos = (state = [], action) => {
     case "TOGGLE_TODO":
       //map function is calling the todo reducer declared above
       return state.map((todoItem) => todo(todoItem, action));
+    // delete needs to delegate down to todo
+    // case "DELETE_TODO":
+    //   return state.filter((todo => todo.id))
+
     default:
       return state;
   }
