@@ -1,8 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { createStore } from "redux";
-import { Provider } from "react-redux";
-import todoApp from "./reducers/rootReducer";
 import AddTodo from "./components/AddTodo";
 import VisibleTodoList from "./components/VisibleTodoList";
 import Footer from "./components/Footer";
@@ -19,19 +15,4 @@ const TodoApp = () => (
   </div>
 );
 
-// store is a single object that holds the data (state) for the entire application.
-// takes in the root reducer, an optional previous state, and Redux dev tools
-
-//for index.js
-ReactDOM.render(
-  <Provider
-    store={createStore(
-      todoApp,
-      window.__REDUX_DEVTOOLS_EXTENSION__ &&
-        window.__REDUX_DEVTOOLS_EXTENSION__()
-    )}
-  >
-    <TodoApp />
-  </Provider>,
-  document.getElementById("root")
-);
+export default TodoApp;

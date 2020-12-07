@@ -16,6 +16,6 @@ export const saveState = (state) => {
     localStorage.setItem("state", serializedState);
   } catch (error) {
     /* eslint-disable no-console */
-    console.error(error);
+    //console.error(error);
   }
 };

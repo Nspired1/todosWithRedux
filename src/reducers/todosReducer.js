@@ -1,20 +1,26 @@
-import todo from "./todoReducer";
+import todoReducer from "./todoReducer";
 
 // todo list reducer
-const todos = (state = [], action) => {
+const todosReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_TODO":
-      return [...state, todo(undefined, action)];
+      return [...state, todoReducer(undefined, action)];
     case "TOGGLE_TODO":
-      //map function is calling the todo reducer declared above
-      return state.map((todoItem) => todo(todoItem, action));
+      //map function is calling the todo reducer imported above
+      return state.map((todoItem) => todoReducer(todoItem, action));
     // delete needs to delegate down to todo
-    // case "DELETE_TODO":
-    //   return state.filter((todo => todo.id))
+    case "DELETE_TODO":
+      return {
+        ...state,
+        todos: state.todos.filter((todo) => todo.id !== action.id),
+      };
+    // return {
+    //   todos: [...state.todos.filter((todo) => todo._id !== action.id)],
+    // };
 
     default:
       return state;
   }
 };
 
-export default todos;
+export default todosReducer;
